@@ -1,0 +1,4 @@
+interface loopback 101
+ip address 10.50.50.50 255.255.255.0
+no shut
+end
