@@ -3,7 +3,7 @@ import getpass
 from datetime import date
 
 user = input('Enter your username: ')
-password = getpass.getpass()
+password = getpasgetpass.s()
 today = date.today()
 
 device_list = []               ##create empty list named device_list
@@ -27,7 +27,7 @@ for line in file:			#read each line individually from devices.txt file
 for device in device_list:
     net_connect = ConnectHandler(**device)
     net_connect.enable()
-    net_connect.send_command('terminal length 0')
+    net_connect.end_command('terminal length 0')
     hostname = device['host']
     print('Running commands on {}'.format(hostname))
     output = net_connect.send_command('show running-config')
