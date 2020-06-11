@@ -1,15 +1,16 @@
 from netmiko import ConnectHandler
 import getpass
 from datetime import date
+import re
 
 user = input('Enter your username: ')
-password = getpasgetpass.s()
+password = getpass.getpass()
 today = date.today()
 
 device_list = []               ##create empty list named device_list
 
 print('Reading CSV Input')
-file = open('devices.txt',mode = 'r')		#open devices.txt in read-only mode
+file = open('ExportDevice.csv',mode = 'r')		#open ExportDevice.csv in read-only mode
 for line in file:			#read each line individually from devices.txt file
     device_info_list = line.strip().split(',')	#read each line into a list separated by “,”
     device_info = {}			#create empty dictionary named device_info
@@ -30,9 +31,19 @@ for device in device_list:
     net_connect.send_command('terminal length 0')
     hostname = device['host']
     print('Running commands on {}'.format(hostname))
-    output = net_connect.send_command('show running-config')
-    output_file = open('running-config_for_{}_{}.txt'.format(hostname,today), 'w')
-    output_file.write(output)
-    output_file.close()
-    net_connect.disconnect()
+    pattern_disabled = re.compile('LLDP is not enabled')
+    pattern_enabled = re.compile('Status: Active', re.IGNORECASE)
+    output = net_connect.send_command('show lldp')
+    output_file_disabled = open('lldp_disabled_switches_{}.txt'.format(today), 'a')
+    output_file_enabled = open('lldp_enabled_switches_{}.txt'.format(today), 'a')
+    for line in output.splitlines():
+        if pattern_disabled.search(line) != None:
+            print('lldp is disabled on {}'.format(hostname))
+            output_file_disabled.write('lldp is disabled on {}\n'.format(hostname))
+        elif pattern_enabled.search(line) != None:
+            print('lldp is enabled on {}'.format(hostname))
+            output_file_enabled.write('lldp is enabled on {}\n'.format(hostname))
     
+    output_file_disabled.close()
+    output_file_enabled.close()
+    net_connect.disconnect()

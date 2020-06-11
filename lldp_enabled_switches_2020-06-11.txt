@@ -1,0 +1,2 @@
+lldp is enabled on willie_swi.ciscosedan.com
+lldp is enabled on izzy_swi.ciscosedan.com
