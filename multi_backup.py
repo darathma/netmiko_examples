@@ -3,7 +3,7 @@ import getpass
 from datetime import date
 
 user = input('Enter your username: ')
-password = getpasgetpass.s()
+password = getpass.getpass()
 today = date.today()
 
 device_list = []               ##create empty list named device_list

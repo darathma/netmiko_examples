@@ -1,2 +1,2 @@
-izzy_swi,10.1.2.11
-willie_swi,10.1.2.12
+willie_swi,10.1.2.11
+izzy_swi,10.1.2.12
